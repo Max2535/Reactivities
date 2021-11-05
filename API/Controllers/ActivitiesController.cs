@@ -20,15 +20,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> GetActivities(CancellationToken ct)
+        public async Task<IActionResult> GetActivities(CancellationToken ct)
         {     
-            return await _mediarot.Send(new Application.Activities.List.Query(),ct);
+            return HandleResult(await _mediarot.Send(new Application.Activities.List.Query(),ct));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activity>> GetActivity(Guid id)
+        public async Task<IActionResult> GetActivity(Guid id)
         {
-            return await _mediarot.Send(new Application.Activities.Details.Query{Id=id});
+            return HandleResult(await _mediarot.Send(new Application.Activities.Details.Query{Id=id}));
         }
 
         [HttpPost]
@@ -41,13 +41,13 @@ namespace API.Controllers
         public async Task<ActionResult> EditActivity(Guid id,Activity activity)
         {
             activity.Id = id;
-            return Ok(await Mediarot.Send(new Application.Activities.Edit.Command{Activity=activity}));
+            return HandleResult(await Mediarot.Send(new Application.Activities.Edit.Command{Activity=activity}));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActivity(Guid id)
         {
-            return Ok(await Mediarot.Send(new Application.Activities.Delete.Command{Id=id}));
+            return HandleResult(await Mediarot.Send(new Application.Activities.Delete.Command{Id=id}));
         }
     }
 }
