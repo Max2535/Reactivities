@@ -1,0 +1,44 @@
+mkdir Reactivities
+cd Reactivities
+dotnet new sln
+dotnet new webapi -n API
+dotnet new classlib -n Application
+dotnet new classlib -n Domain
+dotnet new classlib -n Persistence
+
+dotnet sln add API/API.csproj
+dotnet sln add Application
+dotnet sln add Persistence
+dotnet sln add Domain
+
+cd API
+dotnet add reference ../Application
+
+cd ..
+cd Application
+dotnet add reference ../Persistence
+dotnet add reference ../Domain
+
+cd ..
+cd Persistence
+dotnet add reference ../Domain
+
+dotnet tool list --global
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+
+dotnet ef migrations add InitialCreate -p Persistence -s API
+dotnet ef migrations add EditTable -p Persistence -s API
+dotnet ef database update
+
+git status
+git init
+dotnet new gitignore
+git add .
+git branch -M main
+git remote add origin https://github.com/Max2535/Reactivities.git
+git commit -m "first commit"
+git push -u origin main
+
+dotnet ef database drop -s API -p Persistence
+
