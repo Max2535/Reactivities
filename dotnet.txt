@@ -41,4 +41,5 @@ git commit -m "first commit"
 git push -u origin main
 
 dotnet ef database drop -s API -p Persistence
+dotnet ef migrations add IdentityAdded -p Persistence -s API 
 
