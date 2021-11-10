@@ -1,11 +1,11 @@
 import { useField } from 'formik';
 import React from 'react';
-import { matchPath } from 'react-router';
 import { Form, Label } from 'semantic-ui-react';
 
 interface Props {
     placeholder:string;
     name:string;
+    type?:string;
     label?:string;
 }
 

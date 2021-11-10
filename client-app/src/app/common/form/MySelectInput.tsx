@@ -1,6 +1,5 @@
 import { useField } from 'formik';
 import React from 'react';
-import { matchPath } from 'react-router';
 import { Form, Label, Select } from 'semantic-ui-react';
 
 interface Props {
