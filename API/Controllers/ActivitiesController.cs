@@ -11,26 +11,19 @@ using Persistence;
 
 namespace API.Controllers
 {
-    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
-        private readonly IMediator _mediarot;
-
-        public ActivitiesController(IMediator mediarot)
-        {
-            _mediarot = mediarot;
-        }
 
         [HttpGet]
         public async Task<IActionResult> GetActivities(CancellationToken ct)
         {     
-            return HandleResult(await _mediarot.Send(new Application.Activities.List.Query(),ct));
+            return HandleResult(await Mediarot.Send(new Application.Activities.List.Query(),ct));
         }
         
         [HttpGet("{id}")]
         public async Task<IActionResult> GetActivity(Guid id)
         {
-            return HandleResult(await _mediarot.Send(new Application.Activities.Details.Query{Id=id}));
+            return HandleResult(await Mediarot.Send(new Application.Activities.Details.Query{Id=id}));
         }
 
         [HttpPost]
@@ -39,6 +32,7 @@ namespace API.Controllers
             return Ok(await Mediarot.Send(new Application.Activities.Create.Command{Activity=activity}));
         }
 
+        //[Authorize(Policy ="IsActivityHost")]
         [HttpPut("{id}")]
         public async Task<ActionResult> EditActivity(Guid id,Activity activity)
         {
@@ -46,10 +40,17 @@ namespace API.Controllers
             return HandleResult(await Mediarot.Send(new Application.Activities.Edit.Command{Activity=activity}));
         }
 
+        [Authorize(Policy ="IsActivityHost")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActivity(Guid id)
         {
             return HandleResult(await Mediarot.Send(new Application.Activities.Delete.Command{Id=id}));
+        }
+
+        [HttpPost("{id}/attend")]
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await Mediarot.Send(new Application.Activities.UpdateAttendance.Command{Id=id}));
         }
     }
 }
