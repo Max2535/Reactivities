@@ -43,3 +43,22 @@ git push -u origin main
 dotnet ef database drop -s API -p Persistence
 dotnet ef migrations add IdentityAdded -p Persistence -s API 
 
+dotnet ef migrations add ActivityAttendee -p Persistence -s API 
+dotnet ef migrations remove -p Persistence -s API 
+
+dotnet ef migrations add ActivityAttendee -p Persistence -s API 
+dotnet ef database update
+dotnet new classlib -n Infrastructure
+dotnet sln add Infrastructure
+cd Infrastructure
+dotnet add reference ../Application
+cd ..
+cd API
+dotnet add reference ../Infrastructure
+cd ..
+dotnet restore
+
+dotnet ef migrations add AddCancelledProperty -p Persistence -s API
+dotnet ef database drop -s API -p Persistence
+
+
