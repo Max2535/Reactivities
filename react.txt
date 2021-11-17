@@ -15,3 +15,5 @@ npm install @types/yup --save-dev
 npm install react-datepicker
 npm install @types/react-datepicker
 npm install date-fns@2.16.1
+npm install --save react-dropzone
+npm install --save react-cropper
