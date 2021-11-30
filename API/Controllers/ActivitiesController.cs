@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +17,9 @@ namespace API.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult> GetActivities(CancellationToken ct)
+        public async Task<IActionResult> GetActivities([FromQuery]ActivityParams param)
         {     
-            return HandleResult(await Mediator.Send(new Application.Activities.List.Query(),ct));
+            return HandlePageResult(await Mediator.Send(new Application.Activities.List.Query{Params = param}));
         }
         
         [HttpGet("{id}")]
